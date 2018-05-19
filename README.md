@@ -1,4 +1,4 @@
-# apex-JSONImprovedSerializer
+# Reserved Keyword Serializer
 A Utility class for better control over JSON serialization/deserialization in salesforce apex
 
 ## Install
@@ -12,60 +12,55 @@ A Utility class for better control over JSON serialization/deserialization in sa
 ### extend
 
 For any JSON you need to Serialize datastructure you need to seralize:
-1: `extends JSONImprovedSerializer`
-2: pass mappings into the `super()` constructor.  Mapping is in format `'newProperty' => 'oldProperty'`.
-3: optionally set how to handle nulls
+1: `extends JSONReservedSerializer`
+2: pass mappings into the `super()` constructor.  Mapping is defined by `Map<Type, Map<String,String>>` where `Type` is the top level object you are serializing.  This allows for seralizaiton of multiple types in a single class.
 
 ```java
 public class MySerializer extends JSONImprovedSerializer {
 
-  public static MySerializer instance {get; private set;}
-
-  static {
-    instance = new MySerializer();
-  }
-
   private MySerializer() {
     //setup mappings
-    super(
-        new Map<String,String>{
-            'classObj' => 'class',
-            'isPrivate' => 'private'
-        }
-    );
-    //turn off null serialization
-    setSerializeNulls(false);
-  }
-  public class MySerializerType{
-    public String currencyType {get; set;}
-    public String myReservedWordProp {get; set;}
-  }
+    super(new Map<Type,Map<String,String>>{
+      MyOuterDTO.class => OUTER_DTO_MAPPINGS
+    });
 }
 
-//define DTO's using mapped names
-public class MyDTO {
-  public MyInnerDTO obj;
-}
+  //define DTO's using mapped names
+  static final Map<String, String> OUTER_DTO_MAPPINGS = new Map<String, String> {
+      'obj' => 'object',
+      'isPrivate' => 'private'
+  };
 
-public class MyInnerDTO {
-  public Boolean isPrivate;
-  public String notReserved;
+  public class OuterDTO {
+    public InnerDTO obj;
+  }
+
+  public class InnerDTO {
+    public Boolean isPrivate;
+    public String notReserved;
+  }
 }
 ```
 
-### serialize / deserialize
+### Serialize / Deserialize
 
 ```java
+
 String origString = '{"object":{"private":true,"notReserved":"abc"}}';
 
 //deserialization
-MySerializer.MyDTO obj = (MySerializer.MyDTO)
-   MySerializer.instance.deserialize(
-      origString,
-      MySerializer.MyDTO.class
-   );
+MySerializer json = new MySerializer();
+MySerializer.OuterDTO dto = (MySerializer.OuterDTO) json.deserialize(
+  origString,
+  MySerializer.OuterDTO.class
+);
 
 //serialization
-String newString = MySerializer.instance.serialize(obj);
+String newString = json.serialize(obj);
 System.assertEquals(origString, newString);
 ```
+
+### Notes
+
+1. Serialization mappings are global to the entire object
+1. Likely will fail due to limit exceptions with extremely large strings

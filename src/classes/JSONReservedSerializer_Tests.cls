@@ -1,5 +1,5 @@
 @isTest
-public class JSONImprovedSerializer_Tests {
+public class JSONReservedSerializer_Tests {
 
     @isTest
     private static void testRoundTrip(){
@@ -15,22 +15,20 @@ public class JSONImprovedSerializer_Tests {
         );
 
         //serialization
-        String newString = myJSON.serialize(obj);
+        String newString = myJSON.serialize(obj, MyDTO.class);
         System.assertEquals(origString, newString);
     }
 
     // CLASS FOR TESTING
-    public class MySerializer extends JSONImprovedSerializer {
+    public class MySerializer extends JSONReservedSerializer {
         public MySerializer() {
             //setup mappings
-            super(
-                new Map<String,String>{
+            super(new Map<Type,Map<String,String>>{
+                MyDTO.class => new Map<String, String> {
                     'obj' => 'object',
                     'isPrivate' => 'private'
                 }
-            );
-            //turn off null serialization
-            setSerializeNulls(false);
+            });
         }
     }
 
