@@ -23,7 +23,7 @@ public class MySerializer extends JSONImprovedSerializer {
     super(new Map<Type,Map<String,String>>{
       MyOuterDTO.class => OUTER_DTO_MAPPINGS
     });
-}
+  }
 
   //define DTO's using mapped names
   static final Map<String, String> OUTER_DTO_MAPPINGS = new Map<String, String> {
