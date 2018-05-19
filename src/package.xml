@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>JSONImprovedSerializer</members>
-        <members>JSONImprovedSerializer_Tests</members>
+        <members>JSONReservedSerializer</members>
+        <members>JSONReservedSerializer_Tests</members>
         <name>ApexClass</name>
     </types>
     <version>38.0</version>
