@@ -56,7 +56,7 @@ MySerializer.OuterDTO dto = (MySerializer.OuterDTO) json.deserialize(
 );
 
 //serialization
-String newString = json.serialize(obj);
+String newString = json.serialize(obj, MySerializer.OuterDTO.class);
 System.assertEquals(origString, newString);
 ```
 
