@@ -11,9 +11,10 @@ A Utility class for better control over JSON serialization/deserialization in sa
 
 ### extend
 
-For any JSON you need to Serialize datastructure you need to seralize:
-1: `extends JSONReservedSerializer`
-2: pass mappings into the `super()` constructor.  Mapping is defined by `Map<Type, Map<String,String>>` where `Type` is the top level object you are serializing.  This allows for seralizaiton of multiple types in a single class.
+For any JSON you need to Serialize data structure you need to seralize:
+
+1. implement a class that `extends JSONReservedSerializer`
+1. pass mappings into the `super()` constructor.  Mapping is defined by `Map<Type, Map<String,String>>` where `Type` is the top level object you are serializing.  This allows for seralizaiton of multiple types in a single class.
 
 ```java
 public class MySerializer extends JSONImprovedSerializer {
