@@ -25,10 +25,16 @@ public abstract class JSONReservedSerializer {
     }
 
     private static String transformStringForSerilization(String s, Map<String, String> mapKeys){
+        if(mapKeys == null){
+            return s;
+        }
         return replaceAll(s, mapKeys);
     }
 
     private static String transformStringForDeserilization(String s, Map<String, String> mapKeys){
+        if(mapKeys == null){
+            return s;
+        }
         Map<String,String> flippedMap = new Map<String,String>();
         for(String key : mapKeys.keySet()){
             flippedMap.put(mapKeys.get(key), key);
