@@ -23,7 +23,7 @@ public class JSONReservedSerializer_Tests {
     private static void testBlankMapReturnsStringOnSerialize(){
         String stringX = 'x';
         MySerializer myJSON = new MySerializer();
-        System.assertEquals('"x"', myJSON.serialize(stringX, true, null));
+        System.assertEquals('"x"', myJSON.serialize(stringX, true, null)); 
     }
 
     // CLASS FOR TESTING
